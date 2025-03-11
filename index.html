@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dijkstra Algorithm</title>
+  </head>
+  <body class="bg-blue-50 flex">
+    <div id="app" class="flex-1 py-5">
+      <div class="bg-white w-full h-full rounded-r-4xl overflow-hidden">
+        <canvas class="w-full h-full" id="graph"></canvas>
+      </div>
+    </div>
+    <!-- Graph Tools -->
+    <div id="tools" class="w-3/12 min-h-screen p-5">
+      <button
+        class="bg-white border border-gray-200 py-2 w-full rounded-lg hover:bg-gray-50 cursor-pointer"
+      >
+        Add Vertex
+      </button>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
