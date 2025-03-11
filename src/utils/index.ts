@@ -20,3 +20,31 @@ export function drawGrid(
     ctx.stroke();
   }
 }
+
+export function randomIntInRange(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function incrementChar(char: string): string {
+  const increment = (c: string): string => {
+    return c === "Z" ? "A" : String.fromCharCode(c.charCodeAt(0) + 1);
+  };
+
+  let result = "";
+  let carry = true;
+
+  for (let i = char.length - 1; i >= 0; i--) {
+    if (carry) {
+      result = increment(char[i]) + result;
+      carry = char[i] === "Z";
+    } else {
+      result = char[i] + result;
+    }
+  }
+
+  if (carry) {
+    result = "A" + result;
+  }
+
+  return result;
+}

@@ -13,12 +13,14 @@
       </div>
     </div>
     <!-- Graph Tools -->
-    <div id="tools" class="w-3/12 min-h-screen p-5">
+    <div id="tools" class="w-3/12 min-h-screen p-5 flex flex-col">
       <button
         class="bg-white border border-gray-200 py-2 w-full rounded-lg hover:bg-gray-50 cursor-pointer"
+        id="add-btn"
       >
         Add Vertex
       </button>
+      <div class="flex-1" id="vertices"></div>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
