@@ -12,5 +12,23 @@ export class Gestures {
       const y = e.clientY - this.canvas.offsetTop;
       this.graph.addVertex(x, y);
     });
+
+    // Add vertex to the selectedVertices
+    this.canvas.addEventListener("click", () => {
+      if (this.graph.mode === "edit") return;
+      const clickedVertex = this.graph.vertices.find((v) => v.isMouseCollided);
+
+      if (clickedVertex) {
+        if (this.graph.selectedVertices.includes(clickedVertex)) {
+          const indexOfVertex =
+            this.graph.selectedVertices.indexOf(clickedVertex);
+          this.graph.selectedVertices.splice(indexOfVertex, 1);
+        } else {
+          if (this.graph.selectedVertices.length < 2)
+            this.graph.selectedVertices.push(clickedVertex);
+        }
+      }
+      console.log(this.graph.selectedVertices);
+    });
   }
 }

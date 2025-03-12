@@ -3,15 +3,17 @@ import { Edge } from "../elements/Edge";
 import { Vertex } from "../elements/Vertex";
 import { loadHTMLGUI } from "../main";
 import { incrementChar, randomIntInRange } from "../utils";
+import { color } from "../utils/constants";
 
 export class Graph {
-  // TODO: will change it later
   canvas: HTMLCanvasElement;
   vertices: Vertex[] = [];
   edges: Edge[] = [];
   lastName: string = "";
   mouse: Mouse;
   vertexOnHold: Vertex | null = null;
+  selectedVertices: Vertex[] = [];
+  mode: "edit" | "select" = "edit";
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -43,6 +45,13 @@ export class Graph {
     });
 
     this.vertices.forEach((vertex) => {
+      if (this.selectedVertices.includes(vertex)) {
+        vertex.color.fill = color.vertex.selected.fill;
+        vertex.color.stroke = color.vertex.selected.stroke;
+      } else {
+        vertex.color.fill = color.vertex.default.fill;
+        vertex.color.stroke = color.vertex.default.stroke;
+      }
       vertex.render(ctx);
     });
   }
@@ -54,8 +63,9 @@ export class Graph {
 
     // cursor update
     if (this.vertices.filter((v) => v.isMouseCollided).length > 0) {
-      if (this.mouse.clicked) this.canvas.style.cursor = "grabbing";
-      else this.canvas.style.cursor = "grab";
+      if (this.mouse.clicked && this.mode === "edit")
+        this.canvas.style.cursor = "grabbing";
+      else this.canvas.style.cursor = this.mode === "edit" ? "grab" : "pointer";
     } else {
       this.canvas.style.cursor = "default";
     }

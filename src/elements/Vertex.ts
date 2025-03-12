@@ -1,5 +1,6 @@
 import { Graph } from "../graph/Graph";
 import { isVertexCollidedWithMouse } from "../utils";
+import { color } from "../utils/constants";
 
 export class Vertex {
   name: string;
@@ -10,8 +11,8 @@ export class Vertex {
   hoverRadius: number = 45;
   isMouseCollided: boolean = false;
   color: { fill: string; stroke: string } = {
-    fill: "#fca5a5",
-    stroke: "#ef4444",
+    fill: color.vertex.default.fill,
+    stroke: color.vertex.default.stroke,
   };
 
   neighbors: { vertex: Vertex; weight: number }[] = [];
@@ -54,7 +55,7 @@ export class Vertex {
         this.radius += (this.hoverRadius - this.radius) * 0.3;
       }
 
-      if (mouse.clicked) {
+      if (mouse.clicked && graph.mode === "edit") {
         if (!graph.vertexOnHold) graph.vertexOnHold = this;
         if (graph.vertexOnHold === this) {
           this.x = mouse.x;

@@ -24,6 +24,9 @@ const vertexSelectors =
 const edgeWeight = document.getElementById("edge-weight") as HTMLInputElement;
 const edgeButton = document.getElementById("add-edge-btn") as HTMLButtonElement;
 
+// Mode Selector
+const modeSelector = document.getElementById("mode") as HTMLInputElement;
+
 function init() {
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
@@ -40,6 +43,10 @@ graph.addVertex();
 addButton.addEventListener("click", () => {
   graph.addVertex();
   // loadHTMLGUI();
+});
+
+modeSelector.addEventListener("change", (e) => {
+  graph.mode = (e.target as HTMLInputElement).checked ? "select" : "edit";
 });
 
 edgeButton.addEventListener("click", () => {
@@ -101,7 +108,7 @@ export function loadHTMLGUI() {
     weight: edge.weight,
   }));
 
-  edges.forEach((edge) => {
+  [...edges].reverse().forEach((edge) => {
     const edgeLitstItem = document.createElement("li");
     edgeLitstItem.innerHTML = `
     <div class="flex items-center gap-x-4 w-full bg-white rounded-lg p-2">
