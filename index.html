@@ -14,12 +14,25 @@
     </div>
     <!-- Graph Tools -->
     <div id="tools" class="w-3/12 min-h-screen p-5 flex flex-col">
-      <div class="flex flex-col gap-y-4 w-full">
+      <div class="flex flex-col gap-y-2 w-full">
         <button class="btn" id="add-btn">Add Vertex</button>
-        <input type="text" id="edge-v1" />
-        <input type="text" id="edge-v2" />
-        <input type="text" id="edge-weight" />
-        <button id="add-edge-btn" class="btn">Add Edge</button>
+        <h1 class="tab-head">New Edge</h1>
+        <div class="w-full flex gap-x-5 items-center">
+          <select class="vertex-select flex-1 bg-white p-2 rounded-lg"></select>
+          <span class="text-gray-500">→</span>
+          <select class="vertex-select flex-1 bg-white p-2 rounded-lg"></select>
+        </div>
+        <div class="flex w-full items-end gap-x-10">
+          <div class="w-full flex-1">
+            <label class="text-xs font-semibold text-gray-400" for="edge-weight"
+              >Weight / Distance</label
+            >
+            <input type="number" id="edge-weight" value="0" />
+          </div>
+          <button id="add-edge-btn" class="btn flex-1 h-fit w-fit">
+            Add Edge
+          </button>
+        </div>
       </div>
       <div class="flex-1 overflow-y-auto flex flex-col gap-y-2" id="layers-tab">
         <div id="vertices-section">

@@ -1,3 +1,4 @@
+import { Vertex } from "./elements/Vertex";
 import { Graph } from "./graph/Graph";
 import "./style.css";
 import { drawGrid } from "./utils";
@@ -16,9 +17,9 @@ const edgesSection = document.querySelector(
   "#edges-section ul"
 ) as HTMLDivElement;
 
-// Edge
-const edgeV1 = document.getElementById("edge-v1") as HTMLInputElement;
-const edgeV2 = document.getElementById("edge-v2") as HTMLInputElement;
+// Add Edge Controls
+const vertexSelectors =
+  document.querySelectorAll<HTMLSelectElement>(".vertex-select");
 const edgeWeight = document.getElementById("edge-weight") as HTMLInputElement;
 const edgeButton = document.getElementById("add-edge-btn") as HTMLButtonElement;
 
@@ -41,10 +42,15 @@ addButton.addEventListener("click", () => {
 });
 
 edgeButton.addEventListener("click", () => {
-  const v1 = graph.vertices.find((vertex) => vertex.name === edgeV1.value);
-  const v2 = graph.vertices.find((vertex) => vertex.name === edgeV2.value);
-  if (!v1 || !v2) return;
-  graph.addEdge(v1, v2, +edgeWeight.value);
+  let vertices: Vertex[] = [];
+  vertexSelectors.forEach((selector) => {
+    const vertex = graph.vertices.find(
+      (vertex) => vertex.name === selector.value
+    );
+    if (!vertex) return;
+    vertices.push(vertex);
+  });
+  graph.addEdge(vertices[0], vertices[1], +edgeWeight.value);
   loadHTMLGUI();
 });
 
@@ -61,8 +67,8 @@ init();
 function loadHTMLGUI() {
   // Loading vertices to the HTML GUI
   verticesSection.innerHTML = "";
-  const verticesLabels = graph.vertices.map((vertex) => vertex.name).reverse();
-  verticesLabels.forEach((label) => {
+  const verticesLabels = graph.vertices.map((vertex) => vertex.name);
+  [...verticesLabels].reverse().forEach((label) => {
     const vertexLitstItem = document.createElement("li");
     vertexLitstItem.innerHTML = `
     <div class="flex items-center gap-x-4 w-full bg-white rounded-lg p-2">
@@ -71,6 +77,16 @@ function loadHTMLGUI() {
     </div>
     `;
     verticesSection.appendChild(vertexLitstItem);
+  });
+
+  vertexSelectors.forEach((selector) => {
+    selector.innerHTML = "";
+    verticesLabels.forEach((label) => {
+      const vertexOption = document.createElement("option");
+      vertexOption.textContent = label;
+      vertexOption.value = label;
+      selector.appendChild(vertexOption);
+    });
   });
 
   // Loading edges to the HTML GUI
