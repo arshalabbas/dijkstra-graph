@@ -18,5 +18,14 @@ export class Edge {
     ctx.moveTo(this.vertex1.x, this.vertex1.y);
     ctx.lineTo(this.vertex2.x, this.vertex2.y);
     ctx.stroke();
+
+    // Weight text
+    const midX = (this.vertex1.x + this.vertex2.x) / 2;
+    const midY = (this.vertex1.y + this.vertex2.y) / 2;
+    ctx.fillStyle = "black";
+    ctx.font = "20px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(this.weight.toString(), midX + 18, midY + 18);
   }
 }
