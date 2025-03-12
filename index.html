@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dijkstra Algorithm</title>
   </head>
-  <body class="bg-blue-50 flex">
+  <body class="bg-blue-50 flex max-h-screen overflow-hidden">
     <div id="app" class="flex-1 py-5">
       <div class="bg-white w-full h-full rounded-r-4xl overflow-hidden">
         <canvas class="w-full h-full" id="graph"></canvas>
@@ -14,13 +14,23 @@
     </div>
     <!-- Graph Tools -->
     <div id="tools" class="w-3/12 min-h-screen p-5 flex flex-col">
-      <button
-        class="bg-white border border-gray-200 py-2 w-full rounded-lg hover:bg-gray-50 cursor-pointer"
-        id="add-btn"
-      >
-        Add Vertex
-      </button>
-      <div class="flex-1" id="vertices"></div>
+      <div class="flex flex-col gap-y-4 w-full">
+        <button class="btn" id="add-btn">Add Vertex</button>
+        <input type="text" id="edge-v1" />
+        <input type="text" id="edge-v2" />
+        <input type="text" id="edge-weight" />
+        <button id="add-edge-btn" class="btn">Add Edge</button>
+      </div>
+      <div class="flex-1 overflow-y-auto flex flex-col gap-y-2" id="layers-tab">
+        <div id="vertices-section">
+          <h2 class="tab-head my-2">Vertices</h2>
+          <ul class="list-none flex flex-col gap-y-2"></ul>
+        </div>
+        <div id="edges-section">
+          <h2 class="tab-head my-2">Edges</h2>
+          <ul class="list-none flex flex-col gap-y-2"></ul>
+        </div>
+      </div>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>

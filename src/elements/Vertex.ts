@@ -7,6 +7,8 @@ export class Vertex {
     fill: "rgba(255, 0, 0, 0.5)",
     stroke: "rgba(255, 0, 0, 1)",
   };
+
+  neighbors: { vertex: Vertex; weight: number }[] = [];
   constructor(name: string, x: number, y: number) {
     this.name = name;
     this.x = x;

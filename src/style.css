@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+@layer components {
+  .btn {
+    @apply bg-white border border-gray-200 py-2 w-full rounded-lg hover:bg-gray-50 cursor-pointer;
+  }
+
+  .tab-head {
+    @apply text-gray-500 font-bold uppercase text-sm;
+  }
+}

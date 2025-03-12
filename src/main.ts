@@ -5,22 +5,47 @@ import { drawGrid } from "./utils";
 const canvas = document.getElementById("graph") as HTMLCanvasElement;
 
 const addButton = document.getElementById("add-btn") as HTMLButtonElement;
-const verticesContainer = document.getElementById("vertices") as HTMLDivElement;
 
-canvas.width = canvas.clientWidth;
-canvas.height = canvas.clientHeight;
+// Vertices
+const verticesSection = document.querySelector(
+  "#vertices-section ul"
+) as HTMLDivElement;
 
-console.log(canvas.width, canvas.height);
+// Edges
+const edgesSection = document.querySelector(
+  "#edges-section ul"
+) as HTMLDivElement;
+
+// Edge
+const edgeV1 = document.getElementById("edge-v1") as HTMLInputElement;
+const edgeV2 = document.getElementById("edge-v2") as HTMLInputElement;
+const edgeWeight = document.getElementById("edge-weight") as HTMLInputElement;
+const edgeButton = document.getElementById("add-edge-btn") as HTMLButtonElement;
+
+function init() {
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
+}
+
+window.addEventListener("resize", init);
 
 const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 const graph = new Graph(canvas);
 
 graph.addVertex();
-loadVerticesToUI();
+loadHTMLGUI();
 addButton.addEventListener("click", () => {
   graph.addVertex();
-  loadVerticesToUI();
+  loadHTMLGUI();
+});
+
+edgeButton.addEventListener("click", () => {
+  const v1 = graph.vertices.find((vertex) => vertex.name === edgeV1.value);
+  const v2 = graph.vertices.find((vertex) => vertex.name === edgeV2.value);
+  if (!v1 || !v2) return;
+  graph.addEdge(v1, v2, +edgeWeight.value);
+  loadHTMLGUI();
 });
 
 function tick() {
@@ -31,9 +56,38 @@ function tick() {
 }
 
 tick();
+init();
 
-function loadVerticesToUI() {
-  verticesContainer.innerHTML = graph.vertices
-    .map((vertex) => vertex.name)
-    .join(", ");
+function loadHTMLGUI() {
+  // Loading vertices to the HTML GUI
+  verticesSection.innerHTML = "";
+  const verticesLabels = graph.vertices.map((vertex) => vertex.name).reverse();
+  verticesLabels.forEach((label) => {
+    const vertexLitstItem = document.createElement("li");
+    vertexLitstItem.innerHTML = `
+    <div class="flex items-center gap-x-4 w-full bg-white rounded-lg p-2">
+    <div class="size-5 rounded-full bg-red-500/60 border border-red-500"></div>
+    <span>${label}</span>
+    </div>
+    `;
+    verticesSection.appendChild(vertexLitstItem);
+  });
+
+  // Loading edges to the HTML GUI
+  edgesSection.innerHTML = "";
+  const edges = graph.edges.map((edge) => ({
+    v1: edge.vertex1,
+    v2: edge.vertex2,
+    weight: edge.weight,
+  }));
+
+  edges.forEach((edge) => {
+    const edgeLitstItem = document.createElement("li");
+    edgeLitstItem.innerHTML = `
+    <div class="flex items-center gap-x-4 w-full bg-white rounded-lg p-2">
+    <span>${edge.v1.name} - ${edge.v2.name} (weight: ${edge.weight})</span>
+    </div>
+    `;
+    edgesSection.appendChild(edgeLitstItem);
+  });
 }
