@@ -1,3 +1,4 @@
+import { Gestures } from "./controls/Gestures";
 import { Vertex } from "./elements/Vertex";
 import { Graph } from "./graph/Graph";
 import "./style.css";
@@ -35,10 +36,10 @@ const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 const graph = new Graph(canvas);
 
 graph.addVertex();
-loadHTMLGUI();
+// loadHTMLGUI();
 addButton.addEventListener("click", () => {
   graph.addVertex();
-  loadHTMLGUI();
+  // loadHTMLGUI();
 });
 
 edgeButton.addEventListener("click", () => {
@@ -51,20 +52,23 @@ edgeButton.addEventListener("click", () => {
     vertices.push(vertex);
   });
   graph.addEdge(vertices[0], vertices[1], +edgeWeight.value);
-  loadHTMLGUI();
+  // loadHTMLGUI();
 });
+
+new Gestures(canvas, graph);
 
 function tick() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawGrid(canvas, ctx);
   graph.render(ctx);
+  graph.update();
   requestAnimationFrame(tick);
 }
 
 tick();
 init();
 
-function loadHTMLGUI() {
+export function loadHTMLGUI() {
   // Loading vertices to the HTML GUI
   verticesSection.innerHTML = "";
   const verticesLabels = graph.vertices.map((vertex) => vertex.name);

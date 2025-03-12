@@ -1,3 +1,5 @@
+import { Vertex } from "../elements/Vertex";
+
 export function drawGrid(
   canvas: HTMLCanvasElement,
   ctx: CanvasRenderingContext2D
@@ -47,4 +49,16 @@ export function incrementChar(char: string): string {
   }
 
   return result;
+}
+
+export function isVertexCollidedWithMouse(
+  vertex: Vertex,
+  mouse: { x: number; y: number }
+): boolean {
+  const dx = vertex.x - mouse.x;
+  const dy = vertex.y - mouse.y;
+  const distance = Math.hypot(dx, dy);
+
+  if (distance < vertex.radius) return true;
+  return false;
 }
