@@ -33,6 +33,13 @@ export class Graph {
   }
 
   addEdge(vertex1: Vertex, vertex2: Vertex, weight: number) {
+    if (vertex1 === vertex2) return alert("Both vertices are same!");
+    const existingEdge = this.edges.find(
+      (e) =>
+        (e.vertex1 === vertex1 && e.vertex2 === vertex2) ||
+        (e.vertex2 === vertex1 && e.vertex1 === vertex2)
+    );
+    if (existingEdge) return alert("This edge already exists.");
     vertex1.neighbors.push({ vertex: vertex2, weight });
     vertex2.neighbors.push({ vertex: vertex1, weight });
     this.edges.push(new Edge(vertex1, vertex2, weight));

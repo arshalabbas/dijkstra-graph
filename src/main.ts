@@ -39,10 +39,8 @@ const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 const graph = new Graph(canvas);
 
 graph.addVertex();
-// loadHTMLGUI();
 addButton.addEventListener("click", () => {
   graph.addVertex();
-  // loadHTMLGUI();
 });
 
 modeSelector.addEventListener("change", (e) => {
@@ -58,8 +56,8 @@ edgeButton.addEventListener("click", () => {
     if (!vertex) return;
     vertices.push(vertex);
   });
+  if (+edgeWeight.value < 0) return alert("Edge weight cannot be negative.");
   graph.addEdge(vertices[0], vertices[1], +edgeWeight.value);
-  // loadHTMLGUI();
 });
 
 new Gestures(canvas, graph);
