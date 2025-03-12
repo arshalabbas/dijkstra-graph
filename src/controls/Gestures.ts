@@ -1,4 +1,5 @@
 import { Graph } from "../graph/Graph";
+import { loadHTMLGUI } from "../main";
 
 export class Gestures {
   canvas: HTMLCanvasElement;
@@ -8,6 +9,7 @@ export class Gestures {
     this.graph = graph;
 
     this.canvas.addEventListener("dblclick", (e) => {
+      if (this.graph.mode === "select") return;
       const x = e.clientX - this.canvas.offsetLeft;
       const y = e.clientY - this.canvas.offsetTop;
       this.graph.addVertex(x, y);
@@ -28,7 +30,8 @@ export class Gestures {
             this.graph.selectedVertices.push(clickedVertex);
         }
       }
-      console.log(this.graph.selectedVertices);
+
+      loadHTMLGUI();
     });
   }
 }

@@ -64,3 +64,7 @@ input:checked + .slider-md:before {
 input:checked + .slider-lg:before {
   @apply transform translate-x-[34px];
 }
+
+.selected-v {
+  @apply border-blue-500 bg-blue-300;
+}

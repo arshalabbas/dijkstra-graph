@@ -10,10 +10,8 @@ export class Vertex {
   maxRadius: number = 40;
   hoverRadius: number = 45;
   isMouseCollided: boolean = false;
-  color: { fill: string; stroke: string } = {
-    fill: color.vertex.default.fill,
-    stroke: color.vertex.default.stroke,
-  };
+  selected: boolean = false;
+  highlighted: boolean = false;
 
   neighbors: { vertex: Vertex; weight: number }[] = [];
   constructor(name: string, x: number, y: number) {
@@ -25,10 +23,16 @@ export class Vertex {
   render(ctx: CanvasRenderingContext2D) {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    ctx.fillStyle = this.color.fill;
+    ctx.fillStyle =
+      this.highlighted || !this.selected
+        ? color.vertex.default.fill
+        : color.vertex.selected.fill;
     ctx.fill();
-    ctx.strokeStyle = this.color.stroke;
-    ctx.lineWidth = 1;
+    ctx.strokeStyle =
+      this.selected || this.highlighted
+        ? color.vertex.selected.stroke
+        : color.vertex.default.stroke;
+    ctx.lineWidth = this.highlighted ? 3 : 1;
     ctx.stroke();
 
     // Label

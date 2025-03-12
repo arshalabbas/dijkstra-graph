@@ -1,9 +1,11 @@
+import { color } from "../utils/constants";
 import { Vertex } from "./Vertex";
 
 export class Edge {
   vertex1: Vertex;
   vertex2: Vertex;
   weight: number;
+  highlighted: boolean = false;
 
   constructor(vertex1: Vertex, vertex2: Vertex, weight: number) {
     this.vertex1 = vertex1;
@@ -13,8 +15,10 @@ export class Edge {
 
   render(ctx: CanvasRenderingContext2D) {
     ctx.beginPath();
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 1;
+    ctx.strokeStyle = this.highlighted
+      ? color.edge.selected
+      : color.edge.default;
+    ctx.lineWidth = this.highlighted ? 4 : 1;
     ctx.moveTo(this.vertex1.x, this.vertex1.y);
     ctx.lineTo(this.vertex2.x, this.vertex2.y);
     ctx.stroke();

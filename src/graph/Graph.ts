@@ -3,7 +3,7 @@ import { Edge } from "../elements/Edge";
 import { Vertex } from "../elements/Vertex";
 import { loadHTMLGUI } from "../main";
 import { incrementChar, randomIntInRange } from "../utils";
-import { color } from "../utils/constants";
+import { useDijkstra } from "../utils/dijkstra";
 
 export class Graph {
   canvas: HTMLCanvasElement;
@@ -25,8 +25,8 @@ export class Graph {
     this.vertices.push(
       new Vertex(
         this.lastName,
-        x ?? randomIntInRange(0, this.canvas.width),
-        y ?? randomIntInRange(0, this.canvas.height)
+        x ?? randomIntInRange(100, this.canvas.width - 100),
+        y ?? randomIntInRange(100, this.canvas.height - 100)
       )
     );
     loadHTMLGUI();
@@ -46,14 +46,33 @@ export class Graph {
 
     this.vertices.forEach((vertex) => {
       if (this.selectedVertices.includes(vertex)) {
-        vertex.color.fill = color.vertex.selected.fill;
-        vertex.color.stroke = color.vertex.selected.stroke;
+        vertex.selected = true;
       } else {
-        vertex.color.fill = color.vertex.default.fill;
-        vertex.color.stroke = color.vertex.default.stroke;
+        vertex.selected = false;
       }
       vertex.render(ctx);
     });
+
+    this.edges.forEach((edge) => (edge.highlighted = false));
+    this.vertices.forEach((vertex) => (vertex.highlighted = false));
+
+    if (this.selectedVertices.length >= 2) {
+      const [start, end] = this.selectedVertices;
+      const { path } = useDijkstra(this.vertices, start, end);
+
+      path.forEach((vertex, index) => {
+        const v2 = this.vertices.find((v) => v === path[index + 1]);
+        const edge = this.edges.find(
+          (e) =>
+            (e.vertex1 === vertex && e.vertex2 === v2) ||
+            (e.vertex2 === vertex && e.vertex1 === v2)
+        );
+
+        if (!edge) return;
+        edge.highlighted = true;
+        if (vertex !== start && vertex !== end) vertex.highlighted = true;
+      });
+    }
   }
 
   update() {

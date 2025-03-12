@@ -78,13 +78,18 @@ init();
 export function loadHTMLGUI() {
   // Loading vertices to the HTML GUI
   verticesSection.innerHTML = "";
-  const verticesLabels = graph.vertices.map((vertex) => vertex.name);
-  [...verticesLabels].reverse().forEach((label) => {
+  const vertices = graph.vertices;
+  [...vertices].reverse().forEach((vertex) => {
     const vertexLitstItem = document.createElement("li");
+    const isSelected = graph.selectedVertices.includes(vertex);
     vertexLitstItem.innerHTML = `
-    <div class="flex items-center gap-x-4 w-full bg-white rounded-lg p-2">
-    <div class="size-5 rounded-full bg-red-500/60 border border-red-500"></div>
-    <span>${label}</span>
+    <div class="flex items-center gap-x-4 w-full bg-white rounded-lg p-2 data-label="${
+      vertex.name
+    }">
+    <div class="size-5 rounded-full ${
+      isSelected ? "bg-blue-300" : "bg-red-300"
+    }  border ${isSelected ? "border-blue-500" : "border-red-500"}"></div>
+    <span>${vertex.name}</span>
     </div>
     `;
     verticesSection.appendChild(vertexLitstItem);
@@ -92,12 +97,14 @@ export function loadHTMLGUI() {
 
   vertexSelectors.forEach((selector) => {
     selector.innerHTML = "";
-    verticesLabels.forEach((label) => {
-      const vertexOption = document.createElement("option");
-      vertexOption.textContent = label;
-      vertexOption.value = label;
-      selector.appendChild(vertexOption);
-    });
+    vertices
+      .map((vertex) => vertex.name)
+      .forEach((label) => {
+        const vertexOption = document.createElement("option");
+        vertexOption.textContent = label;
+        vertexOption.value = label;
+        selector.appendChild(vertexOption);
+      });
   });
 
   // Loading edges to the HTML GUI
